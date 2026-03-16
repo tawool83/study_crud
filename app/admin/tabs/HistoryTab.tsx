@@ -17,23 +17,31 @@ export default function HistoryTab() {
   }, []);
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold">실행 내역 (최근 100건)</h2>
-      <div className="bg-gray-800 rounded-lg overflow-hidden">
+    <div className="space-y-5">
+      <h2 className="text-xl font-semibold text-white/90">
+        실행 내역{" "}
+        <span className="text-sm font-normal text-white/40">(최근 100건)</span>
+      </h2>
+
+      <div className="rounded-xl overflow-hidden border border-white/10 backdrop-blur-md" style={{ background: "rgba(255,255,255,0.04)" }}>
         <table className="w-full text-sm">
-          <thead className="bg-gray-700 text-gray-300 text-xs">
-            <tr>
-              <th className="p-3 text-left">실행일시</th>
-              <th className="p-3 text-left">타겟</th>
-              <th className="p-3 text-left">마지막 수집일</th>
+          <thead>
+            <tr className="text-xs text-white/40 uppercase tracking-wider" style={{ background: "rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+              <th className="px-5 py-3.5 text-left font-semibold">실행일시</th>
+              <th className="px-5 py-3.5 text-left font-semibold">타겟</th>
+              <th className="px-5 py-3.5 text-left font-semibold">마지막 수집일</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-700">
-            {rows.map((r) => (
-              <tr key={r.id} className="hover:bg-gray-700">
-                <td className="p-3 text-gray-300">{new Date(r.executed_at).toLocaleString("ko-KR")}</td>
-                <td className="p-3">{r.tb_crawl_target?.name ?? <span className="text-gray-500">삭제된 타겟</span>}</td>
-                <td className="p-3 text-blue-400">{r.last_post_date ?? "-"}</td>
+          <tbody>
+            {rows.map((r, i) => (
+              <tr key={r.id} className="transition-colors duration-150 hover:bg-white/[0.04]" style={i !== rows.length - 1 ? { borderBottom: "1px solid rgba(255,255,255,0.05)" } : {}}>
+                <td className="px-5 py-3.5 text-white/50 text-xs">{new Date(r.executed_at).toLocaleString("ko-KR")}</td>
+                <td className="px-5 py-3.5 text-white/80 font-medium">
+                  {r.tb_crawl_target?.name ?? <span className="text-white/25 italic">삭제된 타겟</span>}
+                </td>
+                <td className="px-5 py-3.5">
+                  <span className="text-blue-400/80 text-xs font-mono">{r.last_post_date ?? "-"}</span>
+                </td>
               </tr>
             ))}
           </tbody>

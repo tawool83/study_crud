@@ -2,11 +2,12 @@ type Props = { label: string } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export default function Input({ label, ...props }: Props) {
   return (
-    <div className="flex flex-col gap-1">
-      <label className="text-xs text-gray-400">{label}</label>
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs font-medium text-white/50 tracking-wide uppercase">{label}</label>
       <input
         {...props}
-        className="p-2 rounded bg-gray-700 border border-gray-600 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+        className="px-3 py-2.5 rounded-lg text-sm text-white placeholder-white/25 border border-white/10 focus:outline-none focus:border-blue-500/60 focus:ring-2 focus:ring-blue-500/20 disabled:opacity-30 transition-all duration-200"
+        style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(8px)" }}
       />
     </div>
   );
