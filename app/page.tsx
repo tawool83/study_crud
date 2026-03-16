@@ -6,7 +6,7 @@ import { supabase } from "../lib/supabaseClient";
 
 // 1. 타입 정의: 데이터의 형태를 미리 정해 실수를 방지합니다.
 
-// 데이터베이스의 `tb_user_k` 테이블의 한 행(row)에 해당하는 데이터 형태를 정의합니다.
+// 데이터베이스의 `tb_users_k` 테이블의 한 행(row)에 해당하는 데이터 형태를 정의합니다.
 // Supabase에서 받아온 데이터는 이 형태를 따르게 됩니다.
 type User = {
   id: number; // 사용자 고유 ID (자동 생성)
@@ -49,9 +49,9 @@ export default function HomePage() {
   // Supabase에서 전체 사용자 목록을 가져와 'users' 상태를 초기화합니다.
   useEffect(() => {
     const fetchUsers = async () => {
-      // supabase의 'tb_user_k' 테이블에서 모든 열(*)을 선택(select)합니다.
+      // supabase의 'tb_users_k' 테이블에서 모든 열(*)을 선택(select)합니다.
       // created_at 열을 기준으로 내림차순(최신순)으로 정렬합니다.
-      const { data, error } = await supabase.from("tb_user_k").select("*").order("created_at", { ascending: false });
+      const { data, error } = await supabase.from("tb_users_k").select("*").order("created_at", { ascending: false });
       
       if (error) { // 데이터 로딩 중 에러가 발생했다면
         console.error("Error fetching users:", error);
@@ -73,7 +73,7 @@ export default function HomePage() {
         {
           event: '*', // 모든 이벤트(INSERT, UPDATE, DELETE)를 감지합니다.
           schema: 'public', // public 스키마를 대상으로 합니다.
-          table: 'tb_user_k', // 'tb_user_k' 테이블의 변경사항만 감지합니다.
+          table: 'tb_users_k', // 'tb_users_k' 테이블의 변경사항만 감지합니다.
         },
         (payload) => { // 변경이 감지되면 이 함수가 실행됩니다. 'payload'에 변경 정보가 담겨있습니다.
           // 이전처럼 목록 전체를 다시 불러오는 대신, 변경된 내용만 효율적으로 반영합니다.
@@ -125,7 +125,7 @@ export default function HomePage() {
     }
 
     // Supabase에 데이터를 추가(insert)합니다.
-    const { error } = await supabase.from("tb_user_k").insert({
+    const { error } = await supabase.from("tb_users_k").insert({
       user_nm: newUser.user_nm,
       user_id: newUser.user_id,
       age: newUser.age ? parseInt(newUser.age, 10) : null, // age가 비어있지 않으면 숫자로 변환, 비어있으면 null
@@ -143,7 +143,7 @@ export default function HomePage() {
   // '삭제' 버튼을 클릭했을 때 실행됩니다.
   const handleDelete = async (id: number) => {
     // Supabase에서 특정 id를 가진 데이터를 삭제(delete)합니다.
-    const { error } = await supabase.from("tb_user_k").delete().match({ id });
+    const { error } = await supabase.from("tb_users_k").delete().match({ id });
     if (error) {
         setError(`사용자 삭제에 실패했습니다: ${error.message}`);
     }
@@ -177,7 +177,7 @@ export default function HomePage() {
     };
 
     // Supabase에서 특정 id를 가진 데이터를 업데이트(update)합니다.
-    const { error } = await supabase.from("tb_user_k").update(updateData).match({ id });
+    const { error } = await supabase.from("tb_users_k").update(updateData).match({ id });
 
     if (error) {
         setError(`사용자 수정에 실패했습니다: ${error.message}`);
@@ -193,7 +193,7 @@ export default function HomePage() {
   // 6. JSX 렌더링: 실제 화면에 그려지는 부분입니다.
   return (
     <div className="container mx-auto p-8 bg-gray-900 text-white min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Supabase CRUD 학습 - tb_user_k</h1>
+      <h1 className="text-3xl font-bold mb-6">Supabase CRUD 학습 - tb_users_k</h1>
 
       {/* ----- 새 사용자 추가 폼 ----- */}
       <div className="mb-8 p-6 bg-gray-800 rounded-lg shadow-md">
