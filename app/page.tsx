@@ -55,7 +55,7 @@ export default function HomePage() {
       
       if (error) { // 데이터 로딩 중 에러가 발생했다면
         console.error("Error fetching users:", error);
-        setError("사용자 목록을 불러오는 데 실패했습니다.");
+        setError(`사용자 목록을 불러오는 데 실패했습니다.${error.message}`);
       } else { // 성공했다면
         setUsers(data as User[]); // 받아온 데이터를 users 상태에 저장합니다.
       }
