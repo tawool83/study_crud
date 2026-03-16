@@ -1,0 +1,36 @@
+name: News Crawler
+
+on:
+  # 매일 오전 9시 (KST = UTC+9 → UTC 00:00)에 자동 실행
+  schedule:
+    - cron: "0 0 * * *"
+
+  # 수동 실행도 가능 (GitHub Actions 탭 → Run workflow)
+  workflow_dispatch:
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: crawler/requirements.txt
+
+      - name: Install Python dependencies
+        run: pip install -r crawler/requirements.txt
+
+      - name: Install Playwright browsers
+        run: playwright install chromium --with-deps
+
+      - name: Run crawler
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python crawler/crawl.py
