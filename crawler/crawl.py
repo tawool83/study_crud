@@ -12,7 +12,7 @@ from supabase import create_client, Client
 
 
 DELAY_SEC = 1.5
-MAX_PAGES = 10
+MAX_PAGES = 1
 
 
 def get_supabase_client() -> Client:
@@ -57,6 +57,18 @@ def get_last_post_date(client: Client, target_id: int) -> str | None:
     return None
 
 
+def get_collected_links(client: Client, target_id: int, since_date: str) -> set[str]:
+    """이미 수집된 링크 목록을 가져옵니다 (last_post_date 당일 포함 이후)."""
+    result = (
+        client.table("tb_news_crawl")
+        .select("link")
+        .eq("target_id", target_id)
+        .gte("post_date", since_date)
+        .execute()
+    )
+    return {row["link"] for row in (result.data or [])}
+
+
 def save_run_history(client: Client, target_id: int, last_post_date: str | None):
     """실행 내역을 저장합니다."""
     client.table("tb_crawl_run_history").insert({
@@ -66,18 +78,29 @@ def save_run_history(client: Client, target_id: int, last_post_date: str | None)
     }).execute()
 
 
-def scrape_page(page, url: str, target: dict, last_post_date: str | None) -> tuple[list[dict], bool]:
+def scrape_page(
+    page,
+    url: str,
+    target: dict,
+    last_post_date: str | None,
+    collected_links: set[str],
+) -> tuple[list[dict], bool]:
     """
     한 페이지의 게시글을 스크래핑합니다.
 
+    날짜 비교 기준:
+      - post_date >  last_post_date → 신규 게시물, 수집
+      - post_date == last_post_date → 링크로 중복 확인 후 미수집건만 수집
+      - post_date <  last_post_date → 완전히 오래된 게시물, 수집 중단
+
     Returns:
         (posts, should_continue)
-        should_continue: False이면 last_post_date 이하 게시물 도달 → 다음 페이지 불필요
     """
     page.goto(url, wait_until="networkidle", timeout=30000)
     time.sleep(1)
 
     rows = []
+    keywords = target.get("keywords") or []
 
     items = page.query_selector_all(target["row_selector"])
     if not items:
@@ -102,13 +125,17 @@ def scrape_page(page, url: str, target: dict, last_post_date: str | None) -> tup
 
         post_date_iso = parse_date(post_date)
 
-        # 마지막 수집일 이하 게시물에 도달하면 수집 중단
-        if last_post_date and post_date_iso and post_date_iso <= last_post_date:
-            print(f"  → 마지막 수집일({last_post_date}) 이하 게시물 도달, 수집 중단")
-            return rows, False
+        if last_post_date and post_date_iso:
+            if post_date_iso < last_post_date:
+                # 완전히 오래된 게시물 → 이후 행도 불필요하므로 중단
+                print(f"  → {last_post_date} 이전 게시물 도달, 수집 중단")
+                return rows, False
+            elif post_date_iso == last_post_date:
+                # 같은 날짜 → 이미 수집된 링크면 스킵
+                if link in collected_links:
+                    continue
 
-        # 키워드 필터: 키워드가 설정된 경우 제목에 하나라도 포함될 때만 수집
-        keywords = target.get("keywords") or []
+        # 키워드 필터
         if keywords and not any(kw.lower() in title.lower() for kw in keywords):
             continue
 
@@ -164,9 +191,12 @@ def crawl_target(browser, client: Client, target: dict):
 
     last_post_date = get_last_post_date(client, target["id"])
     if last_post_date:
-        print(f"  마지막 수집일: {last_post_date} → 이후 게시물만 수집")
+        print(f"  마지막 수집일: {last_post_date} → 이후 + 당일 미수집 게시물 수집")
+        collected_links = get_collected_links(client, target["id"], last_post_date)
+        print(f"  당일 기수집 링크: {len(collected_links)}건")
     else:
         print("  최초 실행 → 전체 수집")
+        collected_links = set()
 
     all_posts: list[dict] = []
     context = browser.new_context(
@@ -182,7 +212,7 @@ def crawl_target(browser, client: Client, target: dict):
         url = target["target_url"] if page_num == 1 else build_page_url(target, page_num)
         print(f"  페이지 {page_num} 수집 중: {url}")
 
-        posts, should_continue = scrape_page(page, url, target, last_post_date)
+        posts, should_continue = scrape_page(page, url, target, last_post_date, collected_links)
         print(f"    → {len(posts)}건 수집")
         all_posts.extend(posts)
 
