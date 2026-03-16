@@ -107,6 +107,11 @@ def scrape_page(page, url: str, target: dict, last_post_date: str | None) -> tup
             print(f"  → 마지막 수집일({last_post_date}) 이하 게시물 도달, 수집 중단")
             return rows, False
 
+        # 키워드 필터: 키워드가 설정된 경우 제목에 하나라도 포함될 때만 수집
+        keywords = target.get("keywords") or []
+        if keywords and not any(kw.lower() in title.lower() for kw in keywords):
+            continue
+
         rows.append({
             "target_id": target["id"],
             "title":     title,
