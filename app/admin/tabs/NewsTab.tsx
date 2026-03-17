@@ -53,11 +53,11 @@ export default function NewsTab() {
         {news.map((n) => (
           <div key={n.id} className="rounded-xl p-4 border border-white/10 backdrop-blur-sm flex justify-between items-start gap-4 hover:border-white/20 transition-all duration-200 group" style={{ background: "rgba(255,255,255,0.04)" }}>
             <div className="flex-1 min-w-0 space-y-1.5">
-              <a href={n.link} target="_blank" rel="noreferrer" className="font-medium text-white/80 hover:text-blue-400 transition-colors duration-150 line-clamp-1 block">
+              <a href={n.link} target="_blank" rel="noreferrer" className="font-medium text-white hover:text-blue-400 transition-colors duration-150 line-clamp-1 block">
                 {n.title}
               </a>
-              <p className="text-xs text-white/30">
-                <span className="text-violet-400/70">{n.tb_crawl_target?.name ?? "알 수 없음"}</span>
+              <p className="text-xs text-gray-300">
+                <span className="text-violet-300">{n.tb_crawl_target?.name ?? "알 수 없음"}</span>
                 {" · "}<span>{n.post_date ?? "-"}</span>
                 {" · "}<span>{n.author ?? "-"}</span>
               </p>

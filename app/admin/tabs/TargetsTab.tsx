@@ -118,15 +118,15 @@ export default function TargetsTab() {
             <div className="flex justify-between items-start gap-4">
               <div className="space-y-1.5 flex-1 min-w-0">
                 <div className="flex items-center gap-2.5">
-                  <span className="font-semibold text-white/90">{t.name}</span>
+                  <span className="font-semibold text-white">{t.name}</span>
                   <Badge active={t.is_active} />
                 </div>
-                <p className="text-xs text-blue-400/80 truncate">{t.target_url}</p>
-                <p className="text-xs text-white/30">row: <span className="text-white/50">{t.row_selector}</span></p>
+                <p className="text-xs text-blue-300 truncate">{t.target_url}</p>
+                <p className="text-xs text-gray-400">row: <span className="text-gray-200">{t.row_selector}</span></p>
                 {t.keywords && t.keywords.length > 0 && (
                   <div className="flex gap-1.5 flex-wrap">
                     {t.keywords.map((k) => (
-                      <span key={k} className="text-xs text-violet-300/80 px-2.5 py-0.5 rounded-full border border-violet-500/20" style={{ background: "rgba(139,92,246,0.1)" }}>
+                      <span key={k} className="text-xs text-violet-300 px-2.5 py-0.5 rounded-full border border-violet-500/20" style={{ background: "rgba(139,92,246,0.1)" }}>
                         {k}
                       </span>
                     ))}

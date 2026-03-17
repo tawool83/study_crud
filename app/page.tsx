@@ -205,7 +205,7 @@ export default function HomePage() {
             value={newUser.user_nm}
             onChange={handleInputChange}
             placeholder="사용자 이름 (필수)"
-            className="p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 rounded bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="text"
@@ -213,7 +213,7 @@ export default function HomePage() {
             value={newUser.user_id}
             onChange={handleInputChange}
             placeholder="사용자 ID (필수)"
-            className="p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 rounded bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="number"
@@ -221,14 +221,14 @@ export default function HomePage() {
             value={newUser.age}
             onChange={handleInputChange}
             placeholder="나이"
-            className="p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 rounded bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="date"
             name="birthday_dtm"
             value={newUser.birthday_dtm}
             onChange={handleInputChange}
-            className="p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 rounded bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button type="submit" className="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
             사용자 추가
@@ -253,10 +253,10 @@ export default function HomePage() {
                   <div className="space-y-3">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {/* `?? ''` : 만약 editingUser.user_nm이 null이나 undefined이면 빈 문자열('')을 사용합니다. (오류 방지) */}
-                      <input type="text" name="user_nm" value={editingUser?.user_nm ?? ''} onChange={handleEditingInputChange} className="p-2 rounded bg-gray-600 border border-gray-500 w-full"/>
-                      <input type="text" name="user_id" value={editingUser?.user_id ?? ''} onChange={handleEditingInputChange} className="p-2 rounded bg-gray-600 border border-gray-500 w-full"/>
-                      <input type="number" name="age" value={editingUser?.age ?? ''} onChange={handleEditingInputChange} className="p-2 rounded bg-gray-600 border border-gray-500 w-full"/>
-                      <input type="date" name="birthday_dtm" value={editingUser?.birthday_dtm ?? ''} onChange={handleEditingInputChange} className="p-2 rounded bg-gray-600 border border-gray-500 w-full"/>
+                      <input type="text" name="user_nm" value={editingUser?.user_nm ?? ''} onChange={handleEditingInputChange} className="p-2 rounded bg-gray-600 border border-gray-500 text-white w-full"/>
+                      <input type="text" name="user_id" value={editingUser?.user_id ?? ''} onChange={handleEditingInputChange} className="p-2 rounded bg-gray-600 border border-gray-500 text-white w-full"/>
+                      <input type="number" name="age" value={editingUser?.age ?? ''} onChange={handleEditingInputChange} className="p-2 rounded bg-gray-600 border border-gray-500 text-white w-full"/>
+                      <input type="date" name="birthday_dtm" value={editingUser?.birthday_dtm ?? ''} onChange={handleEditingInputChange} className="p-2 rounded bg-gray-600 border border-gray-500 text-white w-full"/>
                     </div>
                     <div className="flex justify-end space-x-2">
                        <button onClick={() => handleSaveUser(user.id)} className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">저장</button>
