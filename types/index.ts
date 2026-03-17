@@ -39,6 +39,8 @@ export type User = {
   user_id: string;
   age: number | null;
   birthday_dtm: string | null;
+  email: string | null;
+  slack_webhook_url: string | null;
   created_at: string;
 };
 
@@ -75,6 +77,8 @@ export type UserFormValues = {
   age: string;         // number as string for input[type=number]
   birthday_dtm: string;
   password: string;
+  email: string;
+  slack_webhook_url: string;
 };
 
 // ─── Service payload shapes ───────────────────────────────────────────────────
@@ -87,6 +91,8 @@ export type UserInsertPayload = {
   age: number | null;
   birthday_dtm: string | null;
   password: string;
+  email: string | null;
+  slack_webhook_url: string | null;
 };
 
 export type UserUpdatePayload = Omit<Partial<UserInsertPayload>, 'password'> & {

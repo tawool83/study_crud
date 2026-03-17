@@ -10,6 +10,8 @@ const EMPTY_FORM: UserFormValues = {
   age: '',
   birthday_dtm: '',
   password: '',
+  email: '',
+  slack_webhook_url: '',
 };
 
 /** User → edit form initial values */
@@ -22,6 +24,8 @@ function toFormValues(user: User): UserFormValues {
       ? new Date(user.birthday_dtm).toISOString().split('T')[0]
       : '',
     password: '',
+    email: user.email ?? '',
+    slack_webhook_url: user.slack_webhook_url ?? '',
   };
 }
 
@@ -87,6 +91,8 @@ export function useUsers() {
           age: form.age ? parseInt(form.age, 10) : null,
           birthday_dtm: form.birthday_dtm || null,
           password: form.password,
+          email: form.email || null,
+          slack_webhook_url: form.slack_webhook_url || null,
         };
         await createUser(payload);
       } else {
@@ -95,6 +101,8 @@ export function useUsers() {
           user_id: form.user_id,
           age: form.age ? parseInt(form.age, 10) : null,
           birthday_dtm: form.birthday_dtm || null,
+          email: form.email || null,
+          slack_webhook_url: form.slack_webhook_url || null,
           ...(form.password ? { password: form.password } : {}),
         };
         await updateUser(editingId!, payload);

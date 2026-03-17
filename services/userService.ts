@@ -2,7 +2,7 @@ import { supabase } from '../lib/supabaseClient';
 import { hashPassword } from '../lib/crypto';
 import type { User, UserInsertPayload, UserUpdatePayload } from '../types';
 
-const SELECT_COLS = 'id, user_nm, user_id, age, birthday_dtm, created_at';
+const SELECT_COLS = 'id, user_nm, user_id, age, birthday_dtm, email, slack_webhook_url, created_at';
 
 export async function getUsers(): Promise<User[]> {
   const { data, error } = await supabase

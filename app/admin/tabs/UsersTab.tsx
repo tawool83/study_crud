@@ -50,6 +50,27 @@ export default function UsersTab() {
               placeholder="••••••••"
             />
           </div>
+
+          {/* 알림 설정 */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide mb-3" style={{ color: 'var(--text-3)' }}>알림 설정</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input
+                label="이메일"
+                type="email"
+                value={form.email}
+                onChange={(e) => setField('email', e.target.value)}
+                placeholder="example@email.com"
+              />
+              <Input
+                label="Slack Webhook URL"
+                type="url"
+                value={form.slack_webhook_url}
+                onChange={(e) => setField('slack_webhook_url', e.target.value)}
+                placeholder="https://hooks.slack.com/services/..."
+              />
+            </div>
+          </div>
           {formError && (
             <p className="text-sm px-3 py-2 rounded-lg" style={{ background: 'var(--error-bg)', color: '#fca5a5' }}>
               {formError}
@@ -82,6 +103,18 @@ export default function UsersTab() {
                 <p className="text-sm" style={{ color: 'var(--text-2)' }}>
                   나이: {u.age ?? '미입력'} · 생일: {u.birthday_dtm ? new Date(u.birthday_dtm).toLocaleDateString('ko-KR') : '미입력'}
                 </p>
+                <div className="flex gap-3 flex-wrap">
+                  {u.email && (
+                    <span className="text-xs" style={{ color: 'var(--text-3)' }}>
+                      ✉️ {u.email}
+                    </span>
+                  )}
+                  {u.slack_webhook_url && (
+                    <span className="text-xs" style={{ color: 'var(--text-3)' }}>
+                      💬 Slack 연동됨
+                    </span>
+                  )}
+                </div>
                 <p className="text-xs" style={{ color: 'var(--text-4)' }}>
                   ID: {u.id} · 생성: {new Date(u.created_at).toLocaleString('ko-KR')}
                 </p>
