@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root, [data-theme="dark"] {
+  --bg-page: #080b14;
+  --bg-card: rgba(255,255,255,0.05);
+  --bg-card-md: rgba(255,255,255,0.07);
+  --bg-input: rgba(255,255,255,0.08);
+  --bg-tabs: rgba(255,255,255,0.05);
+  --text-1: #ffffff;
+  --text-2: #d1d5db;
+  --text-3: #9ca3af;
+  --text-4: #6b7280;
+  --divider: rgba(255,255,255,0.06);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.5);
+  --error-bg: rgba(239,68,68,0.12);
+  --keyword-bg: rgba(139,92,246,0.15);
+  --amber-bg: rgba(245,158,11,0.12);
+  --red-bg: rgba(239,68,68,0.12);
+  --green-active-bg: rgba(16,185,129,0.15);
+  --inactive-bg: rgba(255,255,255,0.06);
+  --radial-1: rgba(59,130,246,0.07);
+  --radial-2: rgba(139,92,246,0.07);
+}
+
+[data-theme="light"] {
+  --bg-page: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-md: #ffffff;
+  --bg-input: #ffffff;
+  --bg-tabs: rgba(255,255,255,0.9);
+  --text-1: #0f172a;
+  --text-2: #334155;
+  --text-3: #64748b;
+  --text-4: #94a3b8;
+  --divider: rgba(0,0,0,0.06);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+  --error-bg: rgba(239,68,68,0.08);
+  --keyword-bg: rgba(139,92,246,0.08);
+  --amber-bg: rgba(245,158,11,0.08);
+  --red-bg: rgba(239,68,68,0.08);
+  --green-active-bg: rgba(16,185,129,0.1);
+  --inactive-bg: rgba(0,0,0,0.05);
+  --radial-1: rgba(59,130,246,0.04);
+  --radial-2: rgba(139,92,246,0.04);
+}
