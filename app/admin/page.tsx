@@ -52,7 +52,7 @@ export default function AdminPage() {
         `,
       }}
     >
-      <div className="container mx-auto p-8">
+      <div className="mx-[10%] py-8">
         {/* 헤더 */}
         <div className="flex items-center justify-between mb-8">
           <h1
@@ -77,13 +77,6 @@ export default function AdminPage() {
             >
               로그아웃
             </button>
-            <a
-              href="/"
-              className="text-sm px-4 py-2 rounded-full transition-colors duration-200 hover:opacity-80"
-              style={{ background: "var(--bg-card)", color: "var(--text-3)", boxShadow: "var(--shadow-sm)" }}
-            >
-              ← 메인으로
-            </a>
           </div>
         </div>
 

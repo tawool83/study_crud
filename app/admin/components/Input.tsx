@@ -8,7 +8,7 @@ export default function Input({ label, ...props }: Props) {
       </label>
       <input
         {...props}
-        className="px-3 py-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:opacity-30 transition-all duration-200"
+        className="px-3 py-2.5 rounded-lg text-sm border-0 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:opacity-30 transition-all duration-200"
         style={{
           background: "var(--bg-input)",
           color: "var(--text-1)",

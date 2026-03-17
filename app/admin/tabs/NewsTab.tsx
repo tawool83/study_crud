@@ -19,7 +19,7 @@ export default function NewsTab() {
         <select
           value={filterTargetId}
           onChange={(e) => setFilterTargetId(e.target.value)}
-          className="px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all duration-200 cursor-pointer"
+          className="px-3 py-2 rounded-lg text-sm border-0 focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all duration-200 cursor-pointer"
           style={{ background: 'var(--bg-input)', color: 'var(--text-1)', boxShadow: 'var(--shadow-sm)' }}
         >
           <option value="" style={{ background: 'var(--bg-page)' }}>전체 타겟</option>
