@@ -2,26 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import TargetsTab from "./tabs/TargetsTab";
-import HistoryTab from "./tabs/HistoryTab";
 import NewsTab from "./tabs/NewsTab";
-import UsersTab from "./tabs/UsersTab";
 import { getAuthUser, clearAuthUser } from "../../lib/auth";
 import { useTheme } from "../../lib/theme";
 
-const TABS = [
-  { key: "targets", label: "크롤링 타겟", component: TargetsTab },
-  { key: "history", label: "실행 내역",   component: HistoryTab },
-  { key: "news",    label: "수집 뉴스",   component: NewsTab    },
-  { key: "users",   label: "사용자 관리", component: UsersTab   },
-] as const;
-
-type TabKey = (typeof TABS)[number]["key"];
+const GearIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </svg>
+);
 
 export default function AdminPage() {
   const router = useRouter();
   const { theme, toggle } = useTheme();
-  const [tab, setTab] = useState<TabKey>(TABS[0].key);
   const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
@@ -37,8 +31,6 @@ export default function AdminPage() {
     clearAuthUser();
     router.replace("/login");
   }
-
-  const ActiveTab = TABS.find((t) => t.key === tab)!.component;
 
   return (
     <div
@@ -61,8 +53,17 @@ export default function AdminPage() {
           >
             크롤러 관리
           </h1>
+
           <div className="flex items-center gap-2">
             <span className="text-sm" style={{ color: "var(--text-3)" }}>{userName} 님</span>
+            <button
+              onClick={() => router.push("/admin/settings")}
+              className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full transition-all duration-200 hover:opacity-80"
+              style={{ background: "var(--bg-card)", color: "var(--text-3)", boxShadow: "var(--shadow-sm)" }}
+            >
+              <GearIcon />
+              <span>설정</span>
+            </button>
             <button
               onClick={toggle}
               className="text-sm px-3 py-1.5 rounded-full transition-all duration-200 hover:opacity-80"
@@ -80,28 +81,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* 탭 바 */}
-        <div
-          className="flex gap-1 mb-8 p-1 rounded-xl w-fit"
-          style={{ background: "var(--bg-tabs)", boxShadow: "var(--shadow-sm)" }}
-        >
-          {TABS.map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => setTab(key)}
-              className="px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200"
-              style={
-                tab === key
-                  ? { backgroundImage: "linear-gradient(135deg, #3b82f6, #8b5cf6)", boxShadow: "0 4px 15px rgba(99,102,241,0.35)", color: "white" }
-                  : { color: "var(--text-3)" }
-              }
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        <ActiveTab />
+        <NewsTab />
       </div>
     </div>
   );
